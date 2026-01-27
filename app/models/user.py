@@ -26,25 +26,28 @@ class User(Base):
     modifier = relationship("User", remote_side=[id], foreign_keys=[modified_by], backref="modified_users")
 
    #expense table realtionship
-    expense=relationship("ExpenseTracker", back_populates="user", foreign_keys="ExpenseTracker.user_id")
+    expenses=relationship("ExpenseTracker", back_populates="users", foreign_keys="ExpenseTracker.user_id")
     exp_creator=relationship("ExpenseTracker", back_populates="creator_data", foreign_keys="ExpenseTracker.created_by")
     exp_modifier=relationship("ExpenseTracker", back_populates="modified_data", foreign_keys="ExpenseTracker.modified_by")
     
    #Media data realtionship
-    media=relationship("Media", back_populates="user", foreign_keys="Media.user_id")
+    medias=relationship("Media", back_populates="users", foreign_keys="Media.user_id")
     media_creator=relationship("Media", back_populates="creator_data", foreign_keys="Media.created_by")
     media_modifier=relationship("Media", back_populates="modified_data", foreign_keys="Media.modified_by")
 
-    #Dairy table realtionship
-    dairy=relationship("Dairy", back_populates="user", foreign_keys="Dairy.user_id")
-    dairy_creator=relationship("Dairy", back_populates="creator_data", foreign_keys="Dairy.created_by")
-    dairy_modifier=relationship("Dairy", back_populates="modified_data", foreign_keys="Dairy.modified_by")
+    #Diary table realtionship
+    diaries=relationship("Diary", back_populates="users", foreign_keys="Diary.user_id")
+    diary_creator=relationship("Diary", back_populates="creator_data", foreign_keys="Diary.created_by")
+    diary_modifier=relationship("Diary", back_populates="modified_data", foreign_keys="Diary.modified_by")
 
     #Todolist table realtionship
-    todolist=relationship("Todolist", back_populates="user", foreign_keys="Todolist.user_id")
+    todolists=relationship("Todolist", back_populates="users", foreign_keys="Todolist.user_id")
     todolist_creator=relationship("Todolist", back_populates="creator_data", foreign_keys="Todolist.created_by")
     todolist_modifier=relationship("Todolist", back_populates="modified_data", foreign_keys="Todolist.modified_by")
     
+    #Wallet table relationship
+    wallets=relationship("Wallet", back_populates="users", foreign_keys="Wallet.user_id")
+    wallet_updated=relationship("Wallet", back_populates="updated_data",foreign_keys="Wallet.updated_by")
 
 
 

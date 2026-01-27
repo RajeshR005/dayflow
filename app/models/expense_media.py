@@ -8,13 +8,13 @@ class ExpenseMedia(Base):
 
     id=Column(Integer,primary_key=True,autoincrement=True)
     expense_id=Column(Integer,ForeignKey('expense_tracker.id'))
-    media_id=Column(Integer,ForeignKey('Media.id'))
+    media_id=Column(Integer,ForeignKey('media.id'))
     status=Column(Integer,default=1)
 
     #media table relationship
     medias=relationship("Media",back_populates="expense_medias",foreign_keys=[media_id])
     
     #diary table relationship
-    expenses=relationship("ExpenseTracker", back_populates="expense_medias", foreign_keys=[todolist_id])
+    expenses=relationship("ExpenseTracker", back_populates="expense_medias", foreign_keys=[expense_id])
 
 

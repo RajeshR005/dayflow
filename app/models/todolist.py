@@ -20,7 +20,7 @@ class Todolist(Base):
     modified_at=Column(DateTime,default=datetime.now,onupdate=datetime.now)
 
     #User table realtionship
-    users=relationship("User", back_populates="todolist", foreign_keys=[user_id])
+    users=relationship("User", back_populates="todolists", foreign_keys=[user_id])
     creator_data=relationship("User", back_populates="todolist_creator", foreign_keys=[created_by])
     modified_data=relationship("User", back_populates="todolist_modifier", foreign_keys=[modified_by])
 

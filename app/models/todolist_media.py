@@ -7,8 +7,8 @@ class TodolistMedia(Base):
     __tablename__="todolist_media"
 
     id=Column(Integer,primary_key=True,autoincrement=True)
-    todolist_id=Column(Integer,ForeignKey('Todolist.id'))
-    media_id=Column(Integer,ForeignKey('Media.id'))
+    todolist_id=Column(Integer,ForeignKey('todolist.id'))
+    media_id=Column(Integer,ForeignKey('media.id'))
     status=Column(Integer,default=1)
 
     #media table relationship
