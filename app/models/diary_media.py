@@ -7,7 +7,7 @@ class DiaryMedia(Base):
     __tablename__="diary_media"
 
     id=Column(Integer,primary_key=True,autoincrement=True)
-    diary_id=Column(Integer,ForeignKey('diary.id'))
+    diary_id=Column(Integer,ForeignKey('diary.id'),index=True)
     media_id=Column(Integer,ForeignKey('media.id'))
     status=Column(Integer,default=1)
 

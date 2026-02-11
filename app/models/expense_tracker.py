@@ -8,7 +8,7 @@ class ExpenseTracker(Base):
 
     id=Column(Integer,primary_key=True, autoincrement=True)
     user_id=Column(Integer,ForeignKey('users.id'),index=True)
-    exp_title=Column(String(128))
+    exp_title=Column(String(128),index=True)
     amount=Column(Numeric(10,2))
     mode=Column(String(10)) #"cash_in" or "Cash_out" for audit
     exp_date=Column(Date)

@@ -7,8 +7,8 @@ class Diary(Base):
     __tablename__="diary"
 
     id=Column(Integer,primary_key=True,autoincrement=True)
-    user_id=Column(Integer,ForeignKey('users.id'))
-    diary_title=Column(String(128))
+    user_id=Column(Integer,ForeignKey('users.id'),index=True)
+    diary_title=Column(String(128),index=True)
     diary_description=Column(Text)
     diary_date=Column(Date)
     diary_time=Column(Time)

@@ -9,7 +9,7 @@ class Todolist(Base):
 
     id=Column(Integer,primary_key=True,autoincrement=True)
     user_id=Column(Integer,ForeignKey('users.id'),index=True)
-    todo_title=Column(String(128))
+    todo_title=Column(String(128),index=True)
     todo_description=Column(Text)
     todo_date=Column(Date)
     todo_time=Column(Time)

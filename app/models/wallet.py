@@ -7,7 +7,7 @@ class Wallet(Base):
     __tablename__="wallet"
 
     id=Column(Integer,primary_key=True,autoincrement=True)
-    user_id=Column(Integer,ForeignKey('users.id'))
+    user_id=Column(Integer,ForeignKey('users.id'),index=True)
     balance=Column(Numeric(12,2))
     updated_by=Column(Integer,ForeignKey('users.id'))
     updated_at=Column(DateTime,default=datetime.now,onupdate=datetime.now)

@@ -7,7 +7,7 @@ class ExpenseMedia(Base):
     __tablename__="expense_media"
 
     id=Column(Integer,primary_key=True,autoincrement=True)
-    expense_id=Column(Integer,ForeignKey('expense_tracker.id'))
+    expense_id=Column(Integer,ForeignKey('expense_tracker.id'),index=True)
     media_id=Column(Integer,ForeignKey('media.id'))
     status=Column(Integer,default=1)
 
