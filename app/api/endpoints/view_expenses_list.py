@@ -19,7 +19,7 @@ def view_expense_list(db:Session=Depends(get_db),current_user=Depends(get_curren
     expense_data=[]
     for exp_data in get_expense:
         expense_record={
-            "id":exp_data.id,
+            "id":exp_data.id, 
             "title":exp_data.exp_title,
             "amount":exp_data.amount,
             "date":exp_data.exp_date,
