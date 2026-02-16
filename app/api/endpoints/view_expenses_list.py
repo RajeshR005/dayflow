@@ -7,8 +7,8 @@ from app.models import *
 
 router=APIRouter(tags=["Expense Tracker"])
 
-@router.get('/view_expense_list',description="This Route is for view expense list")
-def view_expense_list(db:Session=Depends(get_db),current_user=Depends(get_current_user)):
+@router.get('/view_expenses_list',description="This Route is for view expense list")
+def view_expenses_list(db:Session=Depends(get_db),current_user=Depends(get_current_user)):
 
     get_expense=db.query(ExpenseTracker).filter(ExpenseTracker.user_id==current_user.id).all()
 
@@ -22,9 +22,11 @@ def view_expense_list(db:Session=Depends(get_db),current_user=Depends(get_curren
             "id":exp_data.id, 
             "title":exp_data.exp_title,
             "amount":exp_data.amount,
+            "category":exp_data.category,
             "date":exp_data.exp_date,
             "time":exp_data.exp_time,
             "mode":exp_data.mode,
+            
         }
         expense_data.append(expense_record)
     return{

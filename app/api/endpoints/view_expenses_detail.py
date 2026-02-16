@@ -7,31 +7,32 @@ from app.models import *
 
 router=APIRouter(tags=["Expense Tracker"])
 
-@router.post('/view_expense_detail',description="This Route is for view expense details")
-def view_expense_detail(expense_id:int=Form(...),db:Session=Depends(get_db),current_user=Depends(get_current_user)):
+@router.get('/view_expense_detail/{expense_id}',description="This Route is for view expense details")
+def view_expense_detail(expense_id:int,db:Session=Depends(get_db),current_user=Depends(get_current_user)):
 
-    get_expense=db.query(ExpenseTracker).filter(ExpenseTracker.id==expense_id,ExpenseTracker.user_id==current_user.id).options(joinedload(ExpenseTracker.expense_medias).joinedload(ExpenseMedia.medias)).all()
+    get_expense=db.query(ExpenseTracker).filter(ExpenseTracker.id==expense_id,ExpenseTracker.user_id==current_user.id).options(joinedload(ExpenseTracker.expense_medias).joinedload(ExpenseMedia.medias)).first()
 
 
     if not get_expense:
         return{"msg":"No Expense Data Found"}
-    expense_data=[]
-    for exp_data in get_expense:
-        expense_record={
-            "id":exp_data.id,
-            "title":exp_data.exp_title,
-            "amount":exp_data.amount,
-            "date":exp_data.exp_date,
-            "time":exp_data.exp_time,
-            "mode":exp_data.mode,
-            "file":[]
-        }
-        for exp_media in exp_data.expense_medias:
-            expense_record["file"].append(exp_media.medias.img_path)
-        expense_data.append(expense_record)
+    
+    exp_files=[]
+    for exp_media in get_expense.expense_medias:
+        exp_files.append(exp_media.medias.img_path)
+    
     return{
-        "expense_data":expense_data
+        "id":get_expense.id,
+        "title":get_expense.exp_title,
+        "amount":get_expense.amount,
+        "category":get_expense.category,
+        "date":get_expense.exp_date,
+        "time":get_expense.exp_time,
+        "mode":get_expense.mode,
+        "file":exp_files
     }
+    
+
+  
         
      
     

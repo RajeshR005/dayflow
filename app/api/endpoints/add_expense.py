@@ -10,7 +10,7 @@ from app.utils import file_storage
 router=APIRouter(tags=["Expense Tracker"])
 
 @router.post('/add_expense',description="This Route is for Adding the Expense Data")
-def add_expenses(title:str=Form(...),amount:Decimal=Form(...),exp_date:date=Form(...),exp_time:str=Form(...),add_receipt:UploadFile=File(None),db:Session=Depends(get_db),current_user=Depends(get_current_user)):
+def add_expenses(title:str=Form(...),amount:Decimal=Form(...),category:str=Form(None),exp_date:date=Form(...),exp_time:str=Form(...),add_receipt:UploadFile=File(None),db:Session=Depends(get_db),current_user=Depends(get_current_user)):
     try:
 
         new_expense_record=ExpenseTracker(
@@ -18,6 +18,7 @@ def add_expenses(title:str=Form(...),amount:Decimal=Form(...),exp_date:date=Form
             exp_title=title,
             amount=amount,
             mode="cash_out",
+            category=category,
             exp_date=exp_date,
             exp_time=exp_time,
             created_by=current_user.id,

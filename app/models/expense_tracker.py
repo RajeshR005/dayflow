@@ -10,8 +10,9 @@ class ExpenseTracker(Base):
     user_id=Column(Integer,ForeignKey('users.id'),index=True)
     exp_title=Column(String(128),index=True)
     amount=Column(Numeric(10,2))
-    mode=Column(String(10)) #"cash_in" or "Cash_out" for audit
-    exp_date=Column(Date)
+    mode=Column(String(10),index=True) #"cash_in" or "Cash_out" for audit
+    category=Column(String(20), index=True) #food, entertainment, transportation, utilities, personalcare etc..,
+    exp_date=Column(Date, index=True)
     exp_time=Column(Time)
     status=Column(Integer,default=1)
     created_by=Column(Integer,ForeignKey('users.id'))
