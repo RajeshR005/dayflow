@@ -20,24 +20,44 @@ def edit_expense_data(expense_id:int, title:str=Form(None),amount:Decimal=Form(N
         get_wallet=db.query(Wallet).filter(Wallet.user_id==current_user.id).first()
         if not get_expense:
             return{"status":0,"msg":"no data found"}
+        
+        #reverse old transcation
+        old_mode=get_expense.mode
+        old_amount=get_expense.amount
+        if old_mode=="cash_in":
+            get_wallet.balance-=old_amount
+        else:
+            get_wallet.balance+=old_amount
+        
+        #add new values
+        if mode:
+            new_mode=mode
+        else:
+            new_mode=old_mode
+        if amount:
+            new_amount=amount
+        else:
+            new_amount=old_amount
+
+        #add new transcation
+        if  new_mode=="cash_in":
+            get_wallet.balance+=new_amount
+        else:
+            get_wallet.balance-=new_amount
+        get_expense.mode=new_mode
+        get_expense.amount=new_amount
+        
+            
         if title:
             get_expense.exp_title=title
         if category:
             get_expense.category=category
-        if mode:
-            get_expense.mode=mode
         if exp_date:
             get_expense.exp_date=exp_date
         if exp_time:
             get_expense.exp_time=exp_time
-        db.commit()
-        db.refresh(get_expense)
-        if amount:
-            get_expense.amount=amount
-            if get_expense.mode=="cash_in":
-                get_wallet.balance+=amount
-            else:
-                get_expense.amount-=amount
+       
+        
         updated_path=None
         if update_file:
             for exp_media in get_expense.expense_medias:
