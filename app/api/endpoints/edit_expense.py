@@ -15,7 +15,7 @@ def edit_expense_data(expense_id:int, title:str=Form(None),amount:Decimal=Form(N
     updated_path=None
     try:
 
-        get_expense=db.query(ExpenseTracker).filter(ExpenseTracker.id==expense_id,ExpenseTracker.user_id==current_user.id).options(joinedload(ExpenseTracker.expense_medias).joinedload(ExpenseMedia.medias)).first()
+        get_expense=db.query(ExpenseTracker).filter(ExpenseTracker.id==expense_id,ExpenseTracker.user_id==current_user.id,ExpenseTracker.status==1).options(joinedload(ExpenseTracker.expense_medias).joinedload(ExpenseMedia.medias)).first()
         if not get_expense:
             return{"status":0,"msg":"no expense data found"}
 
@@ -64,17 +64,13 @@ def edit_expense_data(expense_id:int, title:str=Form(None),amount:Decimal=Form(N
         
         if update_file:
             for exp_media in get_expense.expense_medias:
-                # old_path=os.path.normpath(exp_media.medias.img_path)
-                # if old_path:
-                #    os.remove(old_path)
+                old_path=os.path.normpath(exp_media.medias.img_path)
+                if old_path:
+                   os.remove(old_path)
                 file_path,file_exe=file_storage(update_file,update_file.filename,sub_folder="expenses_imgs")
                 
                 exp_media.medias.img_path=file_path
-                # updated_path=old_path
-        print(get_wallet.balance)
-        print(get_expense.amount)
-        print(get_expense.mode)
-
+                updated_path=old_path
         db.commit()
         return{
         "status":1,

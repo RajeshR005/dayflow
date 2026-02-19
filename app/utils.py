@@ -34,7 +34,7 @@ def file_storage(file_name, f_name,sub_folder):
         sys.exit("Can't create {dir}: {err}".format(
             dir=base_dir, err=e))
 
-    output_dir = base_dir + "/"
+    
 
     filename = file_name.filename
     
@@ -45,7 +45,8 @@ def file_storage(file_name, f_name,sub_folder):
    
     files_name = f_name.split(".")
 
-    save_full_path = f'{output_dir}{files_name[0]}{dt}.{txt1}'
+    save_full_path = os.path.join(base_dir,f"{files_name[0]}{dt}.{txt1}"
+)
 
     file_exe = f"uploads/{f_name}{dt}.{txt1}"
     with open(save_full_path, "wb") as buffer:

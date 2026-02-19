@@ -10,7 +10,7 @@ router=APIRouter(tags=["Expense Tracker"])
 @router.get('/view_expense_detail/{expense_id}',description="This Route is for view expense details")
 def view_expense_detail(expense_id:int,db:Session=Depends(get_db),current_user=Depends(get_current_user)):
 
-    get_expense=db.query(ExpenseTracker).filter(ExpenseTracker.id==expense_id,ExpenseTracker.user_id==current_user.id).options(joinedload(ExpenseTracker.expense_medias).joinedload(ExpenseMedia.medias)).first()
+    get_expense=db.query(ExpenseTracker).filter(ExpenseTracker.id==expense_id,ExpenseTracker.user_id==current_user.id,ExpenseTracker.status==1).options(joinedload(ExpenseTracker.expense_medias).joinedload(ExpenseMedia.medias)).first()
 
 
     if not get_expense:
