@@ -12,7 +12,7 @@ router=APIRouter(tags=["Expense Tracker"])
 
 @router.put('/edit_expense/{expense_id}',description="This Route is for Editing the Expense Data")
 def edit_expense_data(expense_id:int, title:str=Form(None),amount:Decimal=Form(None),category:str=Form(None),mode:str=Form(None),exp_date:date=Form(None),exp_time:str=Form(None), update_file:UploadFile=File(None),db:Session=Depends(get_db),current_user=Depends(get_current_user)):
-    updated_path=None
+    old_path_data=None
     try:
 
         get_expense=db.query(ExpenseTracker).filter(ExpenseTracker.id==expense_id,ExpenseTracker.user_id==current_user.id,ExpenseTracker.status==1).options(joinedload(ExpenseTracker.expense_medias).joinedload(ExpenseMedia.medias)).first()
@@ -23,7 +23,7 @@ def edit_expense_data(expense_id:int, title:str=Form(None),amount:Decimal=Form(N
         if not get_wallet:
             return{"status":0,"msg":"no wallet data found"}
         
-        if mode or amount is not None:
+        if mode is not None or amount is not None:
             #reverse old transcation
             old_mode=get_expense.mode
             old_amount=get_expense.amount
@@ -65,12 +65,12 @@ def edit_expense_data(expense_id:int, title:str=Form(None),amount:Decimal=Form(N
         if update_file:
             for exp_media in get_expense.expense_medias:
                 old_path=os.path.normpath(exp_media.medias.img_path)
-                if old_path:
-                   os.remove(old_path)
                 file_path,file_exe=file_storage(update_file,update_file.filename,sub_folder="expenses_imgs")
                 
                 exp_media.medias.img_path=file_path
-                updated_path=old_path
+                if old_path:
+                   os.remove(old_path)
+                old_path_data=old_path
         db.commit()
         return{
         "status":1,
@@ -78,8 +78,8 @@ def edit_expense_data(expense_id:int, title:str=Form(None),amount:Decimal=Form(N
     }
     except Exception as e:
         db.rollback()
-        if updated_path:
-            os.remove(updated_path)
+        if old_path_data:
+            os.remove(old_path_data)
         return {
         "status": 0,
         "msg": "Something went wrong",

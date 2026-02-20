@@ -1,4 +1,4 @@
-from app.api.endpoints import user_registration,login,add_expense,add_income,view_expenses_list,view_expenses_detail,edit_expense
+from app.api.endpoints import user_registration,login,add_expense,add_income,view_expenses_list,view_expenses_detail,edit_expense,delete_expense, deleted_expenses_list,re_activate_expense
 from fastapi import APIRouter
 
 
@@ -11,4 +11,6 @@ api_router.include_router(add_income.router)
 api_router.include_router(view_expenses_list.router)
 api_router.include_router(view_expenses_detail.router)
 api_router.include_router(edit_expense.router)
-
+api_router.include_router(delete_expense.router)
+api_router.include_router(deleted_expenses_list.router)
+api_router.include_router(re_activate_expense.router)

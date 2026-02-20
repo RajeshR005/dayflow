@@ -10,7 +10,7 @@ router=APIRouter(tags=["Expense Tracker"])
 @router.get('/view_expenses_list',description="This Route is for view expense list")
 def view_expenses_list(db:Session=Depends(get_db),current_user=Depends(get_current_user)):
 
-    get_expense=db.query(ExpenseTracker).filter(ExpenseTracker.user_id==current_user.id).all()
+    get_expense=db.query(ExpenseTracker).filter(ExpenseTracker.user_id==current_user.id,ExpenseTracker.status==1).all()
 
     get_wallet=db.query(Wallet).filter(Wallet.user_id==current_user.id).first()
 
