@@ -64,7 +64,7 @@ def edit_expense_data(expense_id:int, title:str=Form(None),amount:Decimal=Form(N
         
         if update_file:
             for exp_media in get_expense.expense_medias:
-                old_path=os.path.normpath(exp_media.medias.img_path)
+                old_path=exp_media.medias.img_path
                 file_path,file_exe=file_storage(update_file,update_file.filename,sub_folder="expenses_imgs")
                 
                 exp_media.medias.img_path=file_path

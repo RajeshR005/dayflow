@@ -13,7 +13,8 @@ router=APIRouter(tags=["Expense Tracker"])
 @router.patch('/restore_expense/',description="This Route is used to re-activate the expenses")
 def restore_expense(expense_ids:RestoreExpenseIds,db:Session=Depends(get_db),current_user=Depends(get_current_user)):
     all_exp=[]
-    for i in expense_ids:
+    for i in expense_ids.expense_ids:
         get_exp=db.query(ExpenseTracker).filter(ExpenseTracker.id==i).first()
         all_exp.append(get_exp)
     return all_exp
+        
